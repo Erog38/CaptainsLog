@@ -1,26 +1,36 @@
-// Copyright (c) 2017, Boise State University All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.package main
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
-func rawSearchAPIHandler(c *gin.Context) {
-
-}
-
 func searchAPIHandler(c *gin.Context) {
 
-}
+	resp := SearchResponse{}
+	pageOpts := PageOpts{}
+	searchPost := Post{}
 
-////Search
+	c.BindJSON(&searchPost)
+	c.BindQuery(&pageOpts)
 
-func parseInput(c *gin.Context, ptr interface{}) {
+	if pageOpts.PageSize == 0 {
+		pageOpts.PageSize = 25
+	}
 
-}
-func searchQuery(c *gin.Context, searchString string) SearchResponse {
+	var blogPosts []Post
 
-	return SearchResponse{}
+	offset := pageOpts.Page * pageOpts.PageSize
+	if searchPost.isEmpty() {
+		db.Offset(offset).Limit(pageOpts.PageSize).Find(&blogPosts)
+	} else {
+		db.Offset(offset).Limit(pageOpts.PageSize).Where(
+			"name like ?", searchPost.Name).Or(
+			"body like ?", searchPost.Body).Or(
+			"id = ?", searchPost.ID).Find(&blogPosts)
+	}
+	resp.Success = true
+	resp.Posts = blogPosts
+	c.JSON(http.StatusOK, resp)
 }

@@ -10,11 +10,12 @@ import (
 func initRoutes(g *gin.Engine, config *Config) {
 
 	g.GET("/", rootHandler)
-	g.GET("/home", homeHandler)
+	g.GET("/home", rootHandler)
+
+	g.GET("/home/:page", homeHandler)
 	g.GET("/robots.txt", robotHandler)
 
 	g.POST("/api/search", searchAPIHandler)
-	g.POST("/api/search/raw", rawSearchAPIHandler)
 
 	if strings.TrimSpace(config.Username) != "" &&
 		strings.TrimSpace(config.Password) != "" {
@@ -37,7 +38,7 @@ func initRoutes(g *gin.Engine, config *Config) {
 
 //Handler functions
 func rootHandler(c *gin.Context) {
-	c.Redirect(http.StatusTemporaryRedirect, "/home")
+	c.Redirect(http.StatusPermanentRedirect, "/home/0")
 }
 
 func robotHandler(c *gin.Context) {

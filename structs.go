@@ -1,6 +1,7 @@
 package main
 
 import "github.com/jinzhu/gorm"
+import "strings"
 
 type Config struct {
 	//Fully Qualified Domain Name
@@ -25,6 +26,22 @@ type Post struct {
 	Body string `json:"body, omitempty"`
 }
 
+func (p Post) isEmpty() bool {
+	if strings.TrimSpace(p.Body) == "" {
+		if strings.TrimSpace(p.Name) == "" {
+			if p.ID == 0 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+type PageOpts struct {
+	Page     int `form:"page"`
+	PageSize int `form:"pageSize"`
+}
+
 type RawSearch struct {
 	Search string `form:"search" json: "search"`
 }
@@ -36,7 +53,7 @@ type Response struct {
 
 type SearchResponse struct {
 	Response
-	Posts []Post `json:"facilities"`
+	Posts []Post `json:"posts"`
 }
 
 type UpdateResponse struct {
