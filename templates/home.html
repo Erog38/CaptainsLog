@@ -1,0 +1,24 @@
+{% extends 'App.html' %}
+
+{% block content %}
+
+<div class="home">
+    <div class="well blog-well">
+        {% for post in Posts %} 
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>{{post.Name}}</h4></div>
+                <div class="panel-body">{{post.Body}}</div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="well">
+        <div class="timeline">
+            <div class="panel panel-default timeline-panel">
+                 <div class="panel-heading timeline-heading">Timeline</div>
+                 <div class="panel-body timeline-body"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

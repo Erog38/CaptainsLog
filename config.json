@@ -1,0 +1,10 @@
+{                                                                               
+    "fqdn": "localhost",                                                        
+    "port": "8080",                                                             
+    "database": "./blog.db", 
+    "username": "",                                                        
+    "password": "", 
+    "logfile":  "./blog.log",
+    "html":     "./html"
+}                                                                               
+~  

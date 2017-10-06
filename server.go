@@ -3,13 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/robvdl/pongo2gin"
 )
 
 var db *gorm.DB
@@ -39,14 +39,15 @@ func main() {
 
 	db.AutoMigrate(&Post{})
 
-	f, err := os.Create(config.Logfile)
-	if err != nil {
-		fmt.Println(err)
-	}
-	gin.DefaultWriter = io.MultiWriter(f)
+	//f, err := os.Create(config.Logfile)
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	//gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+
 	g := gin.Default()
 
-	g.LoadHTMLGlob(config.HTML + "/*.html")
+	g.HTMLRender = pongo2gin.Default()
 	initRoutes(g, config)
 
 	g.Run(config.FQDN + ":" + config.Port)

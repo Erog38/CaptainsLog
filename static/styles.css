@@ -1,0 +1,45 @@
+.appBar {
+    height: 64px;
+    background-color: rgba(33,33,33,0.8);
+    position: fixed;
+    color: #ffffff;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.appTitle {
+    margin-left: 64px;
+    padding: 13px;
+}
+
+.content {
+    margin-top: 64px; 
+    padding:25px;
+}
+
+.home {
+    display: flex;
+}
+
+.well {
+    margin: 10px;
+}
+
+.timeline-panel {
+    height: 100%;
+}
+
+.blog-well {
+    flex:1;
+    min-width:300px;
+}
+
+.timeline {
+    width:300px;
+    height: 100%;
+}
+
+.timeline-heading {
+    text-align:center;
+}

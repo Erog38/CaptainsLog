@@ -11,7 +11,7 @@ func initRoutes(g *gin.Engine, config *Config) {
 
 	g.GET("/", rootHandler)
 	g.GET("/home", rootHandler)
-
+	g.Static("/static", "./static")
 	g.GET("/home/:page", homeHandler)
 	g.GET("/robots.txt", robotHandler)
 
