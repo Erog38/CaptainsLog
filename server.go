@@ -10,6 +10,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/robvdl/pongo2gin"
+	"github.com/thinkerou/favicon"
 )
 
 var db *gorm.DB
@@ -18,7 +19,7 @@ var defaultConfig = Config{
 	Port:     "8080",
 	Database: "./blog.db",
 	Logfile:  "./blog.log",
-	HTML:     "./html",
+	HTML:     "./templates",
 }
 
 func main() {
@@ -46,6 +47,8 @@ func main() {
 	//gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
 	g := gin.Default()
+
+	g.Use(favicon.New("./static/favicon.ico"))
 
 	g.HTMLRender = pongo2gin.Default()
 	initRoutes(g, config)

@@ -1,22 +1,18 @@
+
 {% extends 'App.html' %}
 
 {% block content %}
 
 <div class="home">
     <div class="well blog-well">
+        
+        <div class="list-group">
         {% for post in Posts %} 
-            <div class="panel panel-default">
-                <div class="panel-heading"><h4>{{post.Name}}</h4></div>
-                <div class="panel-body">{{post.Body}}</div>
-            </div>
+        <a class="list-group-item" href="/post/{{post.ID}}" >{{post.Name}}</a>
         {% empty %}
-            <div class="panel panel-default">
-                <div class="panel-heading"><h4>No Posts</h4></div>
-                <div class="panel-body"> 
-                    Add a blog post and it'll show up here!
-                </div>
-            </div>
+        <a class="list-group-item" href="#" >No Posts! Post Something!</a>
         {% endfor %}
+</div>  
     </div>
     <div class="well">
         <div class="timeline">

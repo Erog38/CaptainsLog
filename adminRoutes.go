@@ -1,91 +1,37 @@
-// Copyright (c) 2017, Boise State University All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.package main
-
 package main
 
 import (
 	"net/http"
-	"strings"
+	"strconv"
 
+	"github.com/flosch/pongo2"
 	"github.com/gin-gonic/gin"
 )
 
-func updateAPIHandler(c *gin.Context) {
-
-	blogPost := Post{}
-	resp := UpdateResponse{}
-	c.BindJSON(&blogPost)
-
-	if blogPost.ID == 0 {
-		resp.Success = false
-		resp.Err = "1: ID must not be empty"
-		c.JSON(http.StatusNotAcceptable, resp)
-		return
-	}
-	if strings.Trim(blogPost.Body, "") == "" {
-		resp.Success = false
-		resp.Err = "2: body must not be empty"
-		c.JSON(http.StatusNotAcceptable, resp)
-		return
-	}
-	if strings.Trim(blogPost.Name, "") == "" {
-		resp.Success = false
-		resp.Err = "3: Name must not be empty"
-		c.JSON(http.StatusNotAcceptable, resp)
-		return
-	}
-
-	var oldPost Post
-	db.First(&oldPost, blogPost.ID)
-	oldPost.Name = blogPost.Name
-	oldPost.Body = blogPost.Body
-	db.Save(&oldPost)
-
-	resp.Success = true
-	c.JSON(http.StatusOK, resp)
+func createHandler(c *gin.Context) {
+	c.HTML(http.StatusOK, "create.html", pongo2.Context{})
 }
 
-func insertAPIHandler(c *gin.Context) {
+func editHandler(c *gin.Context) {
 
-	blogPost := Post{}
-	resp := InsertResponse{}
-	c.BindJSON(&blogPost)
-	if strings.Trim(blogPost.Body, "") == "" {
-		resp.Success = false
-		resp.Err = "2: body must not be empty"
-		c.JSON(http.StatusNotAcceptable, resp)
-		return
-	}
-	if strings.Trim(blogPost.Name, "") == "" {
-		resp.Success = false
-		resp.Err = "3: Name must not be empty"
-		c.JSON(http.StatusNotAcceptable, resp)
-		return
-	}
-
-	db.Create(&blogPost)
-	resp.Success = true
-	c.JSON(http.StatusOK, resp)
 }
 
-func deleteAPIHandler(c *gin.Context) {
+func listHandler(c *gin.Context) {
+	page, _ := strconv.Atoi(c.Param("page"))
 
-	blogPost := Post{}
-	resp := DeleteResponse{}
-	c.BindJSON(&blogPost)
+	pageOpts := PageOpts{}
+	c.BindQuery(&pageOpts)
 
-	if blogPost.ID == 0 {
-		resp.Success = false
-		resp.Err = "1: ID must not be empty"
-		c.JSON(http.StatusNotAcceptable, resp)
-		return
+	if pageOpts.PageSize == 0 {
+		pageOpts.PageSize = 25
 	}
 
-	var oldPost Post
-	db.First(&oldPost, blogPost.ID)
-	db.Delete(&oldPost)
+	offset := page * pageOpts.PageSize
 
-	resp.Success = true
-	c.JSON(http.StatusOK, resp)
+	var blogPosts []Post
+	db.Offset(offset).Limit(pageOpts.PageSize).Select("name, id").Find(&blogPosts)
+
+	c.HTML(http.StatusOK, "list.html", pongo2.Context{
+		"Posts": blogPosts,
+	})
 }

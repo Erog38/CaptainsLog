@@ -3,23 +3,44 @@
     <head>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../static/styles.css"> 
+        <link rel="stylesheet" href="/static/styles.css"> 
         <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
+
         <meta charset="utf-8"> 
-        <title>{% block title %}Captain's Log{% endblock %}</title>
+        <title>Captain's Log | {% block title %}Home{% endblock %} </title>
     </head>
     <body>
-        <div class="appBar">
-            <h4 class="appTitle"> Captain's Log </h4>
-        </div>
-    
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <span>
+                            <img class="app-logo" alt="logo" src="/static/logo.png" />
+                        </span>
+                        <h4 class="appTitle"> Captain's Log </h4>
+                    </a>
+                </div>
+                {% block navbar %}
+                <ul class="nav navbar-nav">
+                    <li><a class="active" href="/">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/admin/list">
+                            <span class="glyphicon glyphicon-log-in"></span> 
+                            Login
+                        </a>
+                    </li>
+                </ul>
+                {% endblock %}
+            </div>
+        </nav>
         <div class="content" id="content">
-             {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
         </div>
     </body>
 </html>

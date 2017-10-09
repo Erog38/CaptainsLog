@@ -20,18 +20,25 @@ func initRoutes(g *gin.Engine, config *Config) {
 	if strings.TrimSpace(config.Username) != "" &&
 		strings.TrimSpace(config.Password) != "" {
 
+		admin := g.Group("/admin", gin.BasicAuth(
+			gin.Accounts{
+				config.Username: config.Password,
+			}))
+		admin.GET("/create", createHandler)
+		admin.GET("/edit", editHandler)
+		admin.GET("/list", listHandler)
+
 		authorized := g.Group("/api", gin.BasicAuth(gin.Accounts{
 			config.Username: config.Password,
 		}))
-
-		authorized.PUT("/update", updateAPIHandler)
-		authorized.PUT("/insert", insertAPIHandler)
-		authorized.DELETE("/delete", deleteAPIHandler)
+		authorized.POST("/update", updateAPIHandler)
+		authorized.POST("/insert", insertAPIHandler)
+		authorized.POST("/delete", deleteAPIHandler)
 	} else {
 
-		g.PUT("/update", updateAPIHandler)
-		g.PUT("/insert", insertAPIHandler)
-		g.DELETE("/delete", deleteAPIHandler)
+		g.POST("/update", updateAPIHandler)
+		g.POST("/insert", insertAPIHandler)
+		g.POST("/delete", deleteAPIHandler)
 	}
 
 }

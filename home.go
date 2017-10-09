@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -24,7 +23,11 @@ func homeHandler(c *gin.Context) {
 	var blogPosts []Post
 	db.Offset(offset).Limit(pageOpts.PageSize).Find(&blogPosts)
 
-	log.Println(len(blogPosts))
+	for _, p := range blogPosts {
+		if len(p.Body) > 100 {
+			p.Body = p.Body[:100] + "..."
+		}
+	}
 
 	c.HTML(http.StatusOK, "home.html", pongo2.Context{
 		"Posts": blogPosts,

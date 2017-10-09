@@ -1,0 +1,34 @@
+{% extends 'App.html' %}
+
+{% block navbar %}
+<ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Admin</a></li>
+        <li><a class="active" href="/admin/create">Create</a></li>
+        <li><a href="/admin/list">List</a></li>
+    </ul>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+</ul>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="well create-well">
+    <form action="/search">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Title: <input class="new-title" type="text" name="name">
+            </div>
+            <div class="panel-body">
+                Post: <input class="post-box" type="text" name="name">
+                <input class="submit-button" type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
