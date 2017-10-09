@@ -1,4 +1,27 @@
-<div class="panel panel-default">
-    <div class="panel-heading">{{ .Heading }}</div>
-    <div class="panel-body">{{ .Body }}</div>
+{% extends 'App.html' %}
+
+{% block header %} 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js"></script>
+{% endblock %} 
+
+{% block title %}{{Post.Name}}{% endblock %}
+
+{% block content %}
+
+<div class="well create-well">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{Post.Name}}
+        </div>
+        <div class="panel-body">
+            <div id="post-body"></div>
+        </div>
+    </div>
 </div>
+
+<script>
+    var converter = new showdown.Converter();
+    document.getElementById('post-body').innerHTML = converter.makeHtml('{{Post.Body}}')
+</script>
+
+{% endblock %}

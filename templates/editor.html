@@ -1,0 +1,53 @@
+{% extends 'App.html' %}
+
+{% block header %} 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+{% endblock %}
+
+{% block title %}Editor{% endblock %}
+
+{% block navbar %}
+<ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Admin</a></li>
+        <li><a class="active" href="/admin/create">Create</a></li>
+        <li><a href="/admin/list">List</a></li>
+    </ul>
+</ul>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="well create-well">
+    {% if {{new}} %}
+    <form action="/admin/insert" method="post">
+    {% else %}
+    <form action="/admin/update/{{Post.ID}}" method="post">
+    {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Title: <input class="new-title" type="text" name="name" value="{{Post.Name}}">
+            </div>
+            <div class="panel-body">
+                Post: 
+                <textarea class="post-box" id="editor" type="text" name="name" >{{Post.Body}}</textarea>
+                <input class="submit-button" type="submit" value="Submit">
+            </div>
+            <input type="url" id="location" name="location" value="" hidden />
+        </div>
+    </form>
+</div>
+
+<script>
+document.getElementById('location').value = location.href;
+new SimpleMDE({
+        element: document.getElementById("editor"),
+        spellChecker: false,
+    });
+
+</script>    
+
+{% endblock %}

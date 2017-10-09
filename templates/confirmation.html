@@ -1,0 +1,43 @@
+
+{% extends 'App.html' %}
+
+{% block navbar %}
+<ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Admin</a></li>
+        <li><a class="active" href="/admin/create">Create</a></li>
+        <li><a href="/admin/list">List</a></li>
+    </ul>
+</ul>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="well create-well">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% if success %}
+            Success!
+            {% else %}
+            <br/>
+            {{body}}
+            {% endif %}
+        </div>
+        <div class="panel-body">
+            <button type="button" class="btn btn-light" href="{{url}}">
+                Go Back
+            </button>
+            {% if success %}
+            <button type="button" class="btn btn-light" href="/posts/{{id}}">
+                See Post
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}

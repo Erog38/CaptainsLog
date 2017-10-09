@@ -9,6 +9,9 @@
 
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        {% block header %}
+        {% endblock %}
 
         <meta charset="utf-8"> 
         <title>Captain's Log | {% block title %}Home{% endblock %} </title>
@@ -17,7 +20,7 @@
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="/home/0">
                         <span>
                             <img class="app-logo" alt="logo" src="/static/logo.png" />
                         </span>
@@ -30,7 +33,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/admin/list">
+                        <a href="/admin/posts">
                             <span class="glyphicon glyphicon-log-in"></span> 
                             Login
                         </a>

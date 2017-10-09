@@ -1,24 +1,33 @@
-
 {% extends 'App.html' %}
+
+
+{% block navbar %}
+<ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/admin/create">Create</a></li>
+    <li class="active" ><a href="/admin/posts">Posts</a></li>
+</ul>
+
+{% endblock %}
 
 {% block content %}
 
 <div class="home">
     <div class="well blog-well">
-        
+
         <div class="list-group">
-        {% for post in Posts %} 
-        <a class="list-group-item" href="/post/{{post.ID}}" >{{post.Name}}</a>
-        {% empty %}
-        <a class="list-group-item" href="#" >No Posts! Post Something!</a>
-        {% endfor %}
-</div>  
+            {% for post in Posts %} 
+            <a class="list-group-item" href="/post/{{post.ID}}" >{{post.Name}}</a>
+            {% empty %}
+            <a class="list-group-item" href="#" >No Posts! Post Something!</a>
+            {% endfor %}
+        </div>  
     </div>
     <div class="well">
         <div class="timeline">
             <div class="panel panel-default timeline-panel">
-                 <div class="panel-heading timeline-heading">Timeline</div>
-                 <div class="panel-body timeline-body"></div>
+                <div class="panel-heading timeline-heading">Timeline</div>
+                <div class="panel-body timeline-body"></div>
             </div>
         </div>
     </div>

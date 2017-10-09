@@ -14,7 +14,7 @@ func initRoutes(g *gin.Engine, config *Config) {
 	g.Static("/static", "./static")
 	g.GET("/home/:page", homeHandler)
 	g.GET("/robots.txt", robotHandler)
-
+	g.GET("/post/:id", postHandler)
 	g.POST("/api/search", searchAPIHandler)
 
 	if strings.TrimSpace(config.Username) != "" &&
@@ -25,8 +25,8 @@ func initRoutes(g *gin.Engine, config *Config) {
 				config.Username: config.Password,
 			}))
 		admin.GET("/create", createHandler)
-		admin.GET("/edit", editHandler)
-		admin.GET("/list", listHandler)
+		admin.GET("/edit/:id", editHandler)
+		admin.GET("/posts", postsHandler)
 
 		authorized := g.Group("/api", gin.BasicAuth(gin.Accounts{
 			config.Username: config.Password,
