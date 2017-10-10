@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/flosch/pongo2"
 	"github.com/gin-gonic/gin"
@@ -44,25 +45,35 @@ func postsHandler(c *gin.Context) {
 }
 
 func updateHandler(c *gin.Context) {
-	var post Post
 	id := c.Param("id")
-	url, _ := c.GetQuery("url")
-	c.BindQuery(post)
+	body, _ := c.GetPostForm("body")
+	name, _ := c.GetPostForm("name")
+	post := Post{Name: name, Body: body}
+	if (strings.TrimSpace(post.Body) == "") && (strings.TrimSpace(post.Name) == "") {
+		c.HTML(http.StatusBadRequest, "editor.html", pongo2.Context{
+			"new":   true,
+			"popup": "Your post needs a body and a name!",
+			"Post":  post,
+		})
+		return
+	}
+	if strings.TrimSpace(post.Name) == "" {
+		c.HTML(http.StatusBadRequest, "editor.html", pongo2.Context{
+			"new":   true,
+			"popup": "Your post needs a name!",
+			"Post":  post,
+		})
+		return
+	}
+	if strings.TrimSpace(post.Body) == "" {
+		c.HTML(http.StatusBadRequest, "editor.html", pongo2.Context{
+			"new":   true,
+			"popup": "Your post needs a body!",
+			"Post":  post,
+		})
+		return
+	}
 
-	if post.Name == "" {
-		c.HTML(http.StatusNotAcceptable, "confirmation.html", pongo2.Context{
-			"body":    "your post needs a name!",
-			"success": false,
-			"url":     url,
-		})
-	}
-	if post.Body == "" {
-		c.HTML(http.StatusNotAcceptable, "confirmation.html", pongo2.Context{
-			"body":    "your post needs a body!",
-			"success": false,
-			"url":     url,
-		})
-	}
 	//else we have a name, body, and ID, continue!
 	var blogPost Post
 	db.Where("id = ?", id).First(&blogPost)
@@ -71,12 +82,44 @@ func updateHandler(c *gin.Context) {
 	blogPost.Body = post.Body
 	db.Save(blogPost)
 
-	c.HTML(http.StatusOK, "confirmation.html", pongo2.Context{
-		"success": true,
-		"url":     url,
-		"id":      id,
+	c.HTML(http.StatusOK, "editor.html", pongo2.Context{
+		"popup": "Updated!",
+		"Post":  post,
 	})
 }
 
 func insertHandler(c *gin.Context) {
+	body, _ := c.GetPostForm("body")
+	name, _ := c.GetPostForm("name")
+	post := Post{Name: name, Body: body}
+
+	if (strings.TrimSpace(post.Body) == "") && (strings.TrimSpace(post.Name) == "") {
+		c.HTML(http.StatusBadRequest, "editor.html", pongo2.Context{
+			"new":   true,
+			"popup": "Your post needs a body and a name!",
+			"Post":  post,
+		})
+		return
+	}
+	if strings.TrimSpace(post.Name) == "" {
+		c.HTML(http.StatusBadRequest, "editor.html", pongo2.Context{
+			"new":   true,
+			"popup": "Your post needs a name!",
+			"Post":  post,
+		})
+		return
+	}
+	if strings.TrimSpace(post.Body) == "" {
+		c.HTML(http.StatusBadRequest, "editor.html", pongo2.Context{
+			"new":   true,
+			"popup": "Your post needs a body!",
+			"Post":  post,
+		})
+		return
+	}
+	db.Create(&post)
+	c.HTML(http.StatusOK, "editor.html", pongo2.Context{
+		"popup": "Posted!",
+		"Post":  post,
+	})
 }

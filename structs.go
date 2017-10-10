@@ -28,8 +28,8 @@ type User struct {
 
 type Post struct {
 	gorm.Model
-	Name string `json:"name, omitempty"`
-	Body string `json:"body, omitempty"`
+	Name string `json:"name, omitempty", form: "name"`
+	Body string `json:"body, omitempty", form: "body"`
 }
 
 func (p Post) isEmpty() bool {

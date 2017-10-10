@@ -6,7 +6,11 @@
     <div class="well blog-well">
         {% for post in Posts %} 
             <div class="panel panel-default">
-                <div class="panel-heading"><h4>{{post.Name}}</h4></div>
+                <div class="panel-heading">
+                    <a href="/post/{{post.ID}}">
+                    <h4>{{post.Name}}</h4>
+                    </a>
+                </div>
                 <div class="panel-body">{{post.Body}}</div>
             </div>
         {% empty %}

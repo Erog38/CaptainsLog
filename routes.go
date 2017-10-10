@@ -20,6 +20,8 @@ func initRoutes(g *gin.Engine, config *Config) {
 		gin.Accounts{config.Username: config.Password}))
 
 	admin.GET("/create", createHandler)
+	admin.POST("/insert", insertHandler)
+	admin.POST("/update/:id", updateHandler)
 	admin.GET("/edit/:id", editHandler)
 	admin.GET("/posts", postsHandler)
 
@@ -27,7 +29,6 @@ func initRoutes(g *gin.Engine, config *Config) {
 	api.POST("/update", updateAPIHandler)
 	api.POST("/insert", insertAPIHandler)
 	api.POST("/delete", deleteAPIHandler)
-
 }
 
 //Handler functions

@@ -12,36 +12,33 @@
         <li><a class="active" href="/admin/create">Create</a></li>
         <li><a href="/admin/posts">Posts</a></li>
 </ul>
-
 {% endblock %}
 
 {% block content %}
-
 <div class="well create-well">
     {% if new %}
     <form action="/admin/insert" method="post">
-    {% else %}
-    <form action="/admin/update/{{Post.ID}}" method="post">
-    {% endif %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Title: <input class="new-title" type="text" name="name" value="{{Post.Name}}">
+        {% else %}
+        <form action="/admin/update/{{Post.ID}}" method="post">
+            {% endif %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Title: <input class="new-title" type="text" name="name" value="{{Post.Name}}">
+                </div>
+                <div class="panel-body">
+                    Post: 
+                    <textarea class="post-box" id="editor" type="text" name="body" >{{Post.Body}}</textarea>
+                    <input class="submit-button" type="submit" value="Submit">
+                </div>
             </div>
-            <div class="panel-body">
-                Post: 
-                <textarea class="post-box" id="editor" type="text" name="name" >{{Post.Body}}</textarea>
-                <input class="submit-button" type="submit" value="Submit">
-            </div>
-            <input type="url" id="location" name="location" value="" hidden />
-        </div>
-    </form>
+        </form>
 </div>
 
 <script>
-document.getElementById('location').value = location.href;
-new SimpleMDE({
+    console.log("{{ popup }}")
+    new SimpleMDE({
         element: document.getElementById("editor"),
-        spellChecker: false,
+        spellChecker: true,
     });
 
 </script>    
