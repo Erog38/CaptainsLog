@@ -38,7 +38,7 @@ func postsHandler(c *gin.Context) {
 	var blogPosts []Post
 	db.Offset(offset).Limit(pageOpts.PageSize).Select("name, id").Find(&blogPosts)
 
-	c.HTML(http.StatusOK, "list.html", pongo2.Context{
+	c.HTML(http.StatusOK, "posts.html", pongo2.Context{
 		"Posts": blogPosts,
 	})
 }

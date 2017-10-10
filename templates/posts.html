@@ -3,7 +3,6 @@
 
 {% block navbar %}
 <ul class="nav navbar-nav">
-    <li><a href="/">Home</a></li>
     <li><a href="/admin/create">Create</a></li>
     <li class="active" ><a href="/admin/posts">Posts</a></li>
 </ul>
@@ -17,7 +16,23 @@
 
         <div class="list-group">
             {% for post in Posts %} 
-            <a class="list-group-item" href="/post/{{post.ID}}" >{{post.Name}}</a>
+            <div class="list-group-item post-list-item" >
+                <h4 href="/post/{{post.ID}}" class="post-list-title"> 
+                    {{post.Name}} 
+                </h4>
+                <div class="post-list-buttons">
+                <a href="/post/{{post.ID}}">
+                    <button class="btn btn-primary post-edit-button" >
+                        View
+                    </button>
+                </a>
+                <a href="/admin/edit/{{post.ID}}">
+                    <button class="btn btn-warning post-edit-button" >
+                        Edit
+                    </button>
+                </a>
+                </div>
+            </div>
             {% empty %}
             <a class="list-group-item" href="#" >No Posts! Post Something!</a>
             {% endfor %}

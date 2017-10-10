@@ -20,6 +20,12 @@ type Config struct {
 	HTML string `json:"html"`
 }
 
+type User struct {
+	gorm.Model
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type Post struct {
 	gorm.Model
 	Name string `json:"name, omitempty"`

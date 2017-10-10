@@ -9,12 +9,8 @@
 
 {% block navbar %}
 <ul class="nav navbar-nav">
-    <li><a href="/">Home</a></li>
-    <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Admin</a></li>
         <li><a class="active" href="/admin/create">Create</a></li>
-        <li><a href="/admin/list">List</a></li>
-    </ul>
+        <li><a href="/admin/posts">Posts</a></li>
 </ul>
 
 {% endblock %}
@@ -22,7 +18,7 @@
 {% block content %}
 
 <div class="well create-well">
-    {% if {{new}} %}
+    {% if new %}
     <form action="/admin/insert" method="post">
     {% else %}
     <form action="/admin/update/{{Post.ID}}" method="post">

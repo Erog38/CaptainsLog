@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,29 +16,17 @@ func initRoutes(g *gin.Engine, config *Config) {
 	g.GET("/post/:id", postHandler)
 	g.POST("/api/search", searchAPIHandler)
 
-	if strings.TrimSpace(config.Username) != "" &&
-		strings.TrimSpace(config.Password) != "" {
+	admin := g.Group("/admin", gin.BasicAuth(
+		gin.Accounts{config.Username: config.Password}))
 
-		admin := g.Group("/admin", gin.BasicAuth(
-			gin.Accounts{
-				config.Username: config.Password,
-			}))
-		admin.GET("/create", createHandler)
-		admin.GET("/edit/:id", editHandler)
-		admin.GET("/posts", postsHandler)
+	admin.GET("/create", createHandler)
+	admin.GET("/edit/:id", editHandler)
+	admin.GET("/posts", postsHandler)
 
-		authorized := g.Group("/api", gin.BasicAuth(gin.Accounts{
-			config.Username: config.Password,
-		}))
-		authorized.POST("/update", updateAPIHandler)
-		authorized.POST("/insert", insertAPIHandler)
-		authorized.POST("/delete", deleteAPIHandler)
-	} else {
-
-		g.POST("/update", updateAPIHandler)
-		g.POST("/insert", insertAPIHandler)
-		g.POST("/delete", deleteAPIHandler)
-	}
+	api := admin.Group("/api")
+	api.POST("/update", updateAPIHandler)
+	api.POST("/insert", insertAPIHandler)
+	api.POST("/delete", deleteAPIHandler)
 
 }
 
