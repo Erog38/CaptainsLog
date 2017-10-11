@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
 	"log"
 	"os"
-	"time"
 
-	jwt "github.com/appleboy/gin-jwt"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
@@ -44,11 +44,11 @@ func main() {
 
 	db.AutoMigrate(&Post{})
 
-	//f, err := os.Create(config.Logfile)
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	//gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+	f, err := os.Create(config.Logfile)
+	if err != nil {
+		fmt.Println(err)
+	}
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
 	g := gin.Default()
 
@@ -58,38 +58,6 @@ func main() {
 	initRoutes(g, config)
 
 	g.Run(config.FQDN + ":" + config.Port)
-}
-
-func jwtMiddleware() jwt.GinJWTMiddleware {
-	return jwt.GinJWTMiddleware{
-		Realm:      "blog",
-		Key:        []byte("lifetheuniverseandeverything"),
-		Timeout:    time.Hour,
-		MaxRefresh: time.Hour,
-		Authenticator: func(userId string, password string, c *gin.Context) (string, bool) {
-			if userId == config.Username && password == config.Password {
-				return userId, true
-			}
-			return userId, false
-		},
-		Authorizator: func(userId string, c *gin.Context) bool {
-			if userId == config.Username {
-				return true
-			}
-
-			return false
-		},
-		Unauthorized: func(c *gin.Context, code int, message string) {
-			c.JSON(code, gin.H{
-				"code":    code,
-				"message": message,
-			})
-		},
-
-		TokenLookup:   "header:Authorization",
-		TokenHeadName: "Bearer",
-		TimeFunc:      time.Now,
-	}
 }
 
 //Parsing functions
