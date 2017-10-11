@@ -1,5 +1,6 @@
 {% extends 'App.html' %}
 
+{% block title %}{{post.Name}}{% endblock %}
 
 {% block navbar %}
 <ul class="nav navbar-nav">
@@ -9,11 +10,10 @@
 
 {% endblock %}
 
-{% block content %}
 
+{% block content %}
 <div class="home">
     <div class="well blog-well">
-
         <div class="list-group">
             {% for post in Posts %} 
             <div class="list-group-item post-list-item" >
@@ -21,16 +21,21 @@
                     {{post.Name}} 
                 </h4>
                 <div class="post-list-buttons">
-                <a href="/post/{{post.ID}}">
-                    <button class="btn btn-primary post-edit-button" >
-                        View
-                    </button>
-                </a>
-                <a href="/admin/edit/{{post.ID}}">
-                    <button class="btn btn-warning post-edit-button" >
-                        Edit
-                    </button>
-                </a>
+                    <a href="/admin/delete/{{post.ID}}">
+                        <button class="btn btn-danger post-edit-button" >
+                            Delete
+                        </button>
+                    </a>
+                    <a href="/admin/edit/{{post.ID}}">
+                        <button class="btn btn-warning post-edit-button" >
+                            Edit
+                        </button>
+                    </a>
+                    <a href="/post/{{post.ID}}">
+                        <button class="btn btn-primary post-edit-button" >
+                            View
+                        </button>
+                    </a>
                 </div>
             </div>
             {% empty %}
@@ -38,14 +43,5 @@
             {% endfor %}
         </div>  
     </div>
-    <div class="well">
-        <div class="timeline">
-            <div class="panel panel-default timeline-panel">
-                <div class="panel-heading timeline-heading">Timeline</div>
-                <div class="panel-body timeline-body"></div>
-            </div>
-        </div>
-    </div>
 </div>
-
 {% endblock %}

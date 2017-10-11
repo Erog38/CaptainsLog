@@ -68,24 +68,38 @@
     margin-top: 20px;
 }
 
-.create-well {
+.post-panel {
     max-width: 1200px;
-    min-width: 300px;
+    min-width: 200px;
+    margin: 0 auto;
+}
+
+.blog-well {
+    max-width: 1200px;
+    min-width: 200px;
     margin: 0 auto;
 }
 
 .post-list-item {
-    display: flex;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: -10px;
 }
 
 .post-edit-button {
     float: right;
-    width: 100px;
     margin-left: 10px;
     margin-right: 10px;
 }
 
+.post-list-title {
+    float:left;
+}
+
 .post-list-buttons {
-    position: absolute;
-    right:0px;
+    float:right;
+}
+
+.pagers {
+    text-align: center;
 }

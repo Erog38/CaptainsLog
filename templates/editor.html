@@ -15,6 +15,36 @@
 {% endblock %}
 
 {% block content %}
+
+{% if popup %}
+<div id="modal" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="closeBtn" class="close" data-dismiss="modal">&times;</button>
+                {% if new %}
+                <h4 class="modal-title">Error!</h4>
+                {% else %}
+                <h4 class="modal-title">{{ popup }}</h4>
+                    <a href="/post/{{Post.ID}}">
+                        <button class="btn btn-primary post-edit-button" >
+                            View
+                        </button>
+                    </a>
+                {% endif %}
+            </div>
+                {% if new %}
+                    <div class="modal-body">
+                        <p>{{ popup }}</p>
+                    </div>
+                {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+
 <div class="well create-well">
     {% if new %}
     <form action="/admin/insert" method="post">
@@ -35,12 +65,21 @@
 </div>
 
 <script>
-    console.log("{{ popup }}")
-    new SimpleMDE({
-        element: document.getElementById("editor"),
-        spellChecker: true,
-    });
-
+new SimpleMDE({
+    element: document.getElementById("editor"),
+    spellChecker: true,
+});
+var modal = document.getElementById("modal")
+var close = document.getElementById("closeBtn");
+close.addEventListener("click", function(){
+    modal.style.display="none";
+});
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+} 
+document.Ready(modal.style.display="block")
 </script>    
 
 {% endblock %}

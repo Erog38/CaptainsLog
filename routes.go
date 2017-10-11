@@ -21,8 +21,11 @@ func initRoutes(g *gin.Engine, config *Config) {
 
 	admin.GET("/create", createHandler)
 	admin.POST("/insert", insertHandler)
+
 	admin.POST("/update/:id", updateHandler)
+	admin.GET("/delete/:id", deleteHandler)
 	admin.GET("/edit/:id", editHandler)
+
 	admin.GET("/posts", postsHandler)
 
 	api := admin.Group("/api")

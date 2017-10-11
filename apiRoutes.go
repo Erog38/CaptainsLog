@@ -67,6 +67,7 @@ func insertAPIHandler(c *gin.Context) {
 		resp.Success = false
 		resp.Err = "post exists"
 		c.JSON(http.StatusConflict, resp)
+		return
 	}
 
 	db.Create(&blogPost)
@@ -75,22 +76,27 @@ func insertAPIHandler(c *gin.Context) {
 }
 
 func deleteAPIHandler(c *gin.Context) {
-
 	blogPost := Post{}
 	resp := DeleteResponse{}
 	c.BindJSON(&blogPost)
 
 	if blogPost.ID == 0 {
 		resp.Success = false
-		resp.Err = "1: ID must not be empty"
+		resp.Err = "1: ID must not be empty or zero"
 		c.JSON(http.StatusNotAcceptable, resp)
 		return
 	}
 
 	var oldPost Post
 	db.First(&oldPost, blogPost.ID)
-	db.Delete(&oldPost)
+	if oldPost.ID == 0 {
+		resp.Success = false
+		resp.Err = "4: Post does not exist"
+		c.JSON(http.StatusNotAcceptable, resp)
+		return
+	}
 
+	db.Delete(&oldPost)
 	resp.Success = true
 	c.JSON(http.StatusOK, resp)
 }

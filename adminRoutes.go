@@ -81,10 +81,9 @@ func updateHandler(c *gin.Context) {
 	blogPost.Name = post.Name
 	blogPost.Body = post.Body
 	db.Save(blogPost)
-
 	c.HTML(http.StatusOK, "editor.html", pongo2.Context{
 		"popup": "Updated!",
-		"Post":  post,
+		"Post":  blogPost,
 	})
 }
 
@@ -121,5 +120,12 @@ func insertHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "editor.html", pongo2.Context{
 		"popup": "Posted!",
 		"Post":  post,
+	})
+}
+
+func deleteHandler(c *gin.Context) {
+	id := c.Param("id")
+	c.HTML(http.StatusOK, "delete.html", pongo2.Context{
+		"ID": id,
 	})
 }

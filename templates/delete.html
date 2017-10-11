@@ -1,0 +1,41 @@
+{% extends 'App.html' %}
+
+{% block title %}Delete {{ID}} {% endblock %}
+
+{% block content %}
+
+<div class="panel panel-default post-panel">
+    <div class="panel-heading">
+        <h3> Delete? </h3>
+    </div>
+    <div class="panel-body">
+        <div id="post-body">
+            Are you sure you want to delete this?
+        </div>
+        <div class="delete-btn-group">
+            <button href="/post/{{ID}}" class="btn btn-success"> Cancel </button>
+            <button id="deleteBtn" class="btn btn-danger"> Delete </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var btn = document.getElementById("deleteBtn");
+    btn.addEventListener("click", function() {
+       console.log("button works") 
+        var request = new XMLHttpRequest();
+        request.open("POST", "/admin/api/delete", true);
+        request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        request.onload = function () {
+            var data = JSON.parse(request.responseText);
+            if (!data.success){
+                console.log(data.error)
+            } else {
+                window.location = "/admin/posts"
+            }
+        }
+        request.send("{\"ID\":{{ID}}}")
+    })
+</script>
+
+{% endblock %}

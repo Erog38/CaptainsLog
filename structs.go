@@ -20,16 +20,10 @@ type Config struct {
 	HTML string `json:"html"`
 }
 
-type User struct {
-	gorm.Model
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
 type Post struct {
 	gorm.Model
-	Name string `json:"name, omitempty", form: "name"`
-	Body string `json:"body, omitempty", form: "body"`
+	Name string `json:"name, omitempty"`
+	Body string `json:"body, omitempty"`
 }
 
 func (p Post) isEmpty() bool {

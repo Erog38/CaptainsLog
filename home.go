@@ -15,7 +15,7 @@ func homeHandler(c *gin.Context) {
 	c.BindQuery(&pageOpts)
 
 	if pageOpts.PageSize == 0 {
-		pageOpts.PageSize = 25
+		pageOpts.PageSize = 10
 	}
 
 	offset := page * pageOpts.PageSize
@@ -23,13 +23,25 @@ func homeHandler(c *gin.Context) {
 	var blogPosts []Post
 	db.Offset(offset).Limit(pageOpts.PageSize).Find(&blogPosts)
 
+	var summerizedPosts []Post
 	for _, p := range blogPosts {
 		if len(p.Body) > 100 {
 			p.Body = p.Body[:100] + "..."
 		}
+		summerizedPosts = append(summerizedPosts, p)
+	}
+	var count int
+	db.Model(&Post{}).Count(&count)
+
+	var buttons []int
+
+	for i := 0; i <= int(count/10); i++ {
+		buttons = append(buttons, i)
 	}
 
 	c.HTML(http.StatusOK, "home.html", pongo2.Context{
-		"Posts": blogPosts,
+		"Posts":   summerizedPosts,
+		"Buttons": buttons,
+		"Page":    page,
 	})
 }
