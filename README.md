@@ -1,13 +1,18 @@
 # Captain's Log
 
-This is a REST API built for CS497 to keep an ongoing
-list of instrumentation and facilities up to date. 
+This is a blog with a REST API built for CS497.
 
 It currently requires the following packages to function:
 
 * github.com/gin-gonic/gin
-* github.com/mattn/sqlite3
+* github.com/mattn/go-sqlite3
 * github.com/fatih/structs
+* github.com/jinzhu/gorm
+* github.com/robvdl/pongo2gin
+* github.com/thinkerou/favicon
+* github.com/flosch/pongo2
+* github.com/russross/blackfriday
+* github.com/microcosm-cc/bluemonday
 
 ## Building
 
@@ -19,7 +24,7 @@ following command:
 
 ## Running
 
-The server takes a n optional config file which can be used to provide the 
+The server takes an optional config file which can be used to provide the 
 following data:
 
 <pre>

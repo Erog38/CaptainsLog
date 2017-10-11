@@ -9,7 +9,7 @@ build:
         - docker info
         - mkdir gopath
         - export GOROOT=/usr/local/go
-        - export GOPATH=`pwd`/gopath
+        - export GOPATH=/usr/local/gopath
         - go get github.com/gin-gonic/gin  
         - go get github.com/mattn/go-sqlite3 
         - go get github.com/fatih/structs 
@@ -28,7 +28,7 @@ deploy:
     stage: deploy
     script:
         - mkdir build
-        - EXPORT GOPATH=`pwd`/build
+        - export GOPATH=/usr/local/gopath
         - go get github.com/gin-gonic/gin  
         - go get github.com/mattn/go-sqlite3 
         - go get github.com/fatih/structs 
