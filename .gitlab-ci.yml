@@ -40,7 +40,12 @@ deploy:
         - go get github.com/microcosm-cc/bluemonday 
         - go build 
         - mv Captains_Log build/
-        - echo '{"port":"443","database":"/blog/blog.db","username":"$USERNAME","password":"$PASSWORD","logfile":"/blog/blog.log","html":"./templates"}' > ./build/config.json
+        - mv templates static build/
+        - echo '{"port":"443","database":"/blog/blog.db","username":"' >> ./build/config.json
+        - echo $USERNAME >> ./build/config.json
+        - echo '","password":"' >> ./build/config.json
+        - echo $PASSWORD >> ./build/config.json
+        - echo '","logfile":"/blog/blog.log","html":"./templates"}' >> ./build/config.json
         - docker-compose up -d 
     tags:
         - docker
