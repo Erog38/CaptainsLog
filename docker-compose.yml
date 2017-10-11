@@ -14,7 +14,7 @@ services:
         volumes:
             - './build:/app'
             - '/opt/blog:/blog'
-        command: bash -c "/app/Captains_Log /app/config.json"
+        command: sh -c "/app/Captains_Log /app/config.json"
 networks:
     default:
         external:
