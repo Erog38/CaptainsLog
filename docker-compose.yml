@@ -1,7 +1,7 @@
 version: "3"
 services:
     webpage:
-        image: 'alpine:latest'
+        image: 'ubuntu:latest'
         restart: always
         container_name: blog
         hostname: 'blog.philgore.net'
@@ -14,7 +14,7 @@ services:
         volumes:
             - './build:/app'
             - '/opt/blog:/blog'
-        command: sh -c "/app/Captains_Log /app/config.json"
+        command: bash -c "cd /app; /app/Captains_Log /app/config.json"
 networks:
     default:
         external:
